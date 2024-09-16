@@ -1,0 +1,45 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <h2>Статьи</h2>
+<hr />
+<h3>Сейчас {{ time_now|date:'d F Y / H:i' }} </h3>
+<hr />
+
+{% if perms.news.add_post %}
+    <a href="{% url 'article_create' %}" style="color:#0c63e4; text-decoration:none">Создать статью</a>
+    {% endif %}
+
+    <ul>
+        {% for post in article %}
+            <h2><em>{{ post.title|censor }}</em></h2>
+            <p>Автор: {{ post.author.authorUser.username }}</p>
+            <p>Дата публикации: {{ post.dateCreation|date:'d F Y' }}.</p>
+            <p>{{ post.text|censor|truncatewords:20}} </p>
+<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btnradio2"><a href="{% url 'article_detail' post.id %}" style="color:#0c63e4; text-decoration:none" >Подробнее</a></label>
+</div>
+        {% endfor %}
+<hr />
+        {# Добавляем пагинацию на страницу #}
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% endblock %}

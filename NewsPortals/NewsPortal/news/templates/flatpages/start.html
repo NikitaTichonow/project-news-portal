@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<h1>Добро Пожаловать на News Portal</h1>
+<hr />
+<h3>Сейчас {{ time_now|date:'d F Y / H:i' }}, Всего публикаций: {{ news|length }}</h3>
+<hr />
+<ul>
+    {% for news_item in news %}
+        <h3><a href="{% url 'news_detail' news_item.id %}"style="color:#495057; text-decoration:none" >{{ news_item.title|censor }}</a></h3>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+    <h1><em>{{ post.title }}</em></h1>
+    <p>Дата публикации: {{ post.dateCreation|date:'d F Y' }}.</p>
+    <p>{{ post.text|censor }}</p>
+    <p>Автор: {{ post.author.authorUser.username }}</p>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary"><a href="{% url 'article_list' %}" style="color:#e7f1ff; text-decoration:none" > Вернуться назад</a></button>
+  <button type="button" class="btn btn-secondary"><a href="{% url 'article_edit' post.id %}" style="color:#e7f1ff; text-decoration:none" > Редактировать </a></button>
+  <button type="button" class="btn btn-secondary"><a href="{% url 'article_delete' post.id %}" style="color:#e7f1ff; text-decoration:none" > Удалить </a></button>
+</div>
+{% endblock %}

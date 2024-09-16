@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+    <h1>Страница поиска</h1>
+<hr />
+<form action="" method="GET" >
+    {{ filter.form }} <!-- Форму от фильтров за нас сделает django. А вот кнопку, мы сделаем сами -->
+    <input type="submit"  value="Найти">
+</form>
+<hr />
+    <ul>
+        {% for post in search %}
+            <a href="{% url 'news_detail' post.id %}"style="color:#495057; text-decoration:none"><b>{{ post.title|censor }}</b></a>
+        {% empty %}
+            <h3>Ничего не найдено</h3>
+        {% endfor %}
+    </ul>
+<hr />
+{% endblock %}
+
